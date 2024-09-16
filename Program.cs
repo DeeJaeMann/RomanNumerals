@@ -1,8 +1,14 @@
 ﻿namespace RomanNumerals
 {
+    /// <summary>
+    /// Roman Numerals example
+    /// </summary>
     internal class Program
     {
-        static void Main(string[] args)
+        /// <summary>
+        /// Roman Numberals example
+        /// </summary>
+        static void Main()
         {
             Console.WriteLine("Hello, World!");
         }
