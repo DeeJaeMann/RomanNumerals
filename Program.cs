@@ -70,9 +70,9 @@ namespace RomanNumerals
         /// <returns>modern formatted roman numeral</returns>
         static StringBuilder ToModern(StringBuilder lazyNumeral)
         {
+            // Iterate through the priority order
             for(int index = 0; index < romanNumeralPriorityOrder.Length; index++)
             {
-                //Console.WriteLine($"Pri {romanNumeralPriorityOrder[index]}");
                 // Count of numeral matches
                 int numeralCount = 0;
                 // Ensure we're not on 'M'
@@ -82,7 +82,7 @@ namespace RomanNumerals
                     // Iterate through the lazyNumeral string to compare matches
                     foreach(char numeral in lazyNumeral.ToString())
                     {
-
+                        // Check our match
                         if (romanNumeralPriorityOrder[index] == numeral)
                         {
                             numeralCount++;
