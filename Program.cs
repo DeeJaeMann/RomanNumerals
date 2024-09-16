@@ -29,6 +29,11 @@ namespace RomanNumerals
             Console.WriteLine(ToLazy(4)); // 'IIII'
             Console.WriteLine(ToLazy(150)); // 'CL'
             Console.WriteLine(ToLazy(944)); // 'DCCCCXXXXIIII'
+
+            Console.WriteLine("ToModern");
+            Console.WriteLine(ToModern(ToLazy(4))); // 'IV'
+            Console.WriteLine(ToModern(ToLazy(150))); // 'CL'
+            Console.WriteLine(ToModern(ToLazy(944))); // 'CMXLIV'
         }
 
         /// <summary>
@@ -56,6 +61,51 @@ namespace RomanNumerals
                 }
             }
             return output;
+        }
+
+        /// <summary>
+        /// Converts the roman numeral to a modern roman numeral
+        /// </summary>
+        /// <param name="lazyNumeral">Lazy formatted roman numeral</param>
+        /// <returns>modern formatted roman numeral</returns>
+        static StringBuilder ToModern(StringBuilder lazyNumeral)
+        {
+            for(int index = 0; index < romanNumeralPriorityOrder.Length; index++)
+            {
+                //Console.WriteLine($"Pri {romanNumeralPriorityOrder[index]}");
+                // Count of numeral matches
+                int numeralCount = 0;
+                // Ensure we're not on 'M'
+                // We will not convert multiple 'M' roman numerals
+                if(index > 0)
+                {
+                    // Iterate through the lazyNumeral string to compare matches
+                    foreach(char numeral in lazyNumeral.ToString())
+                    {
+
+                        if (romanNumeralPriorityOrder[index] == numeral)
+                        {
+                            numeralCount++;
+                        }
+                        // If we have 4 matches we need to convert
+                        if (numeralCount > 3)
+                        {
+                            // Generate the string to locate for replacement
+                            string patternToMatch = string.Concat(Enumerable.Repeat(romanNumeralPriorityOrder[index], numeralCount));
+                            // Generate the string to use for replacement
+                            string patternToUse = $"{romanNumeralPriorityOrder[index]}{romanNumeralPriorityOrder[index-1]}";
+                            lazyNumeral.Replace(patternToMatch, patternToUse);
+                            // Outlier patterns representing 90 and 900
+                            // Patch solution
+                            lazyNumeral.Replace("DCD", "CM");
+                            lazyNumeral.Replace("XLX", "XC");
+                            // No further processing is needed for this numeral
+                            break;
+                        }
+                    }
+                }
+            }
+            return lazyNumeral;
         }
     }
 }
